@@ -4,94 +4,15 @@ Java Language Basics
 Table of Contents
 -----------------
 
-1.  `Environment Setup <#environment-setup>`__
-2.  `Your First Java Program <#your-first-java-program>`__
-3.  `Command Line Arguments <#command-line-arguments>`__
-4.  `Good Programming Practices <#good-programming-practices>`__
-5.  `Java Language Features <#java-language-features>`__
-6.  `Keywords <#keywords>`__
-7.  `Data Types and Variables <#data-types-and-variables>`__
-8.  `Operators <#operators>`__
-9.  `Advanced Examples <#advanced-examples>`__
-10. `Quiz Solutions <#quiz-solutions>`__
-
---------------
-
-Environment Setup
------------------
-
-PATH Configuration
-~~~~~~~~~~~~~~~~~~
-
-**PATH** is an environmental variable that tells the operating system
-which directories to search for executable files when commands are
-issued by a user.
-
-Setting PATH on Windows:
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-1. Right-click “My Computer” → Properties
-2. Select “Advanced” tab → Environment Variables
-3. Find “Path” in System Variables → Edit
-4. Add your JDK bin directory: ``C:\Program Files\Java\jdk-11.0.x\bin;``
-5. Click OK to save
-
-Setting PATH on Linux/Mac:
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code:: bash
-
-   # Add to ~/.bashrc or ~/.zshrc
-   export PATH=$PATH:/usr/lib/jvm/java-11-openjdk/bin
-
-   # For temporary session
-   export PATH=$PATH:/path/to/your/jdk/bin
-
-Verification:
-^^^^^^^^^^^^^
-
-.. code:: bash
-
-   # Check if Java compiler is accessible
-   javac -version
-
-   # Check if Java runtime is accessible
-   java -version
-
-CLASSPATH Configuration
-~~~~~~~~~~~~~~~~~~~~~~~
-
-**CLASSPATH** tells the JVM or compiler where to locate classes that are
-not part of the Java Development Toolkit (JDK).
-
-Setting CLASSPATH:
-^^^^^^^^^^^^^^^^^^
-
-**Windows:** 1. Right-click “My Computer” → Properties → Advanced →
-Environment Variables 2. Click “New” under System Variables 3. Variable
-Name: ``CLASSPATH`` 4. Variable Value: ``.`` (dot for current directory)
-
-**Linux/Mac:**
-
-.. code:: bash
-
-   # Add to ~/.bashrc or ~/.zshrc
-   export CLASSPATH=.:$CLASSPATH
-
-   # Include specific JAR files
-   export CLASSPATH=.:lib/mylib.jar:$CLASSPATH
-
-Command Line CLASSPATH:
-^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code:: bash
-
-   # Temporary classpath for current execution
-   javac -cp .:lib/somelib.jar MyClass.java
-   java -cp .:lib/somelib.jar MyClass
-
-   # Multiple paths
-   java -cp ".:lib/*:config/" MyClass
+1.  `Your First Java Program <#your-first-java-program>`__
+2.  `Command Line Arguments <#command-line-arguments>`__
+3.  `Good Programming Practices <#good-programming-practices>`__
+4.  `Java Language Features <#java-language-features>`__
+5.  `Keywords <#keywords>`__
+6.  `Data Types and Variables <#data-types-and-variables>`__
+7.  `Operators <#operators>`__
+8.  `Advanced Examples <#advanced-examples>`__
+9.  `Practice Exercises <#practice-exercises>`__
 
 --------------
 
@@ -111,17 +32,65 @@ Every Java application starts with a class containing a main method:
        }
    }
 
-Compilation and Execution Process
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Explanation:**
 
-.. code:: bash
+1. **Class Declaration**: `public class Welcome` - Defines a class named "Welcome"
+2. **Main Method**: `public static void main(String[] args)` - The entry point of the program
+   - `public`: Accessible from anywhere
+   - `static`: Belongs to the class, not to objects of the class
+   - `void`: Does not return any value
+   - `main`: Special method name recognized by the JVM as the starting point
+   - `String[] args`: Command line arguments passed to the program
+3. **Statement**: `System.out.println("Welcome to Java Programming!");` - Prints the text to the console
+   - `System`: A predefined class in the java.lang package
+   - `out`: A static member of the System class, representing the standard output
+   - `println()`: A method that prints the argument and adds a new line
 
-   # 1. Create source file: Welcome.java
-   # 2. Compile the source code
-   javac Welcome.java
+Compilation and Execution Process in IntelliJ IDEA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   # 3. Execute the compiled bytecode
-   java Welcome
+**Creating and Running Your First Java Program:**
+
+1. **Create a New Java Class**:
+   - Right-click on your project's ``src`` folder
+   - Select New → Java Class
+   - Enter a name (e.g., "Welcome") and click OK
+   - IntelliJ will create a basic class structure for you
+
+2. **Write Your Code**:
+   - Add a main method to make your class executable:
+
+   .. code:: java
+
+      public class Welcome {
+          public static void main(String[] args) {
+              System.out.println("Welcome to Java Programming!");
+          }
+      }
+
+3. **Run Your Program**:
+   - Click the green "Run" icon in the gutter next to your main method, or
+   - Right-click anywhere in the editor and select "Run 'Welcome.main()'"
+   - Use the keyboard shortcut: Shift+F10 (Windows/Linux) or Control+R (Mac)
+
+**Output** (appears in the Run tool window at the bottom of the IDE):
+
+::
+
+   Welcome to Java Programming!
+
+**What happens behind the scenes:**
+
+1. **Compilation**: IntelliJ automatically compiles your Java source code
+   - Converts your .java file into bytecode (.class files)
+   - Performs real-time syntax checking and highlights errors as you type
+   - Stores compiled files in the project's "out" or "target" directory
+
+2. **Execution**: When you run the program, IntelliJ:
+   - Creates a run configuration (if one doesn't exist)
+   - Launches the JVM with the appropriate classpath
+   - Loads your compiled class
+   - Executes the main method
 
 Multiple Classes in One File
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -150,11 +119,36 @@ Multiple Classes in One File
        }
    }
 
-**Result:** Compiling ``Sample.java`` creates three ``.class`` files:
-``A.class``, ``B.class``, and ``C.class``.
+**Running in IntelliJ IDEA:**
+
+1. Create a file named ``Sample.java`` with the code above
+2. After typing the code, IntelliJ will recognize the class with the main method (class C)
+3. Click the green "Run" icon next to the main method in class C
+4. IntelliJ automatically compiles and runs the program
+
+**Output:**
+
+::
+
+   Method in class A
+   Method in class B
+
+**Behind the Scenes:** When IntelliJ compiles ``Sample.java``, it creates three ``.class`` files:
+``A.class``, ``B.class``, and ``C.class`` in the output directory.
+
+**Key Points:**
+- You can define multiple classes in a single .java file
+- IntelliJ shows all classes in the Project view but distinguishes the class with the main method
+- Only one class in the file can be public, and if present, its name must match the filename
+- Only one class in the file can be declared as public
+- The public class name must match the filename
+- Each class is compiled into its own separate .class file
+- To run the program, specify the class containing the main method
 
 Common Compilation Errors
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When writing your first Java programs, you might encounter several common errors. Understanding these errors will help you debug your code more efficiently.
 
 Missing String[] args:
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -170,6 +164,8 @@ Missing String[] args:
 
 **Error:** ``Error: Main method not found in class Sample``
 
+**Explanation:** The JVM specifically looks for a method with the signature `public static void main(String[] args)`. If the parameter is missing, the JVM won't recognize it as the entry point, resulting in a runtime error.
+
 Correct Version:
 ^^^^^^^^^^^^^^^^
 
@@ -181,27 +177,200 @@ Correct Version:
        }
    }
 
+**Other Common Errors:**
+
+1. **Class Name Mismatch:**
+   
+   .. code:: java
+   
+      // Filename: Test.java
+      public class Sample {
+          public static void main(String[] args) {
+              System.out.println("Hello");
+          }
+      }
+   
+   **Error:** ``class Sample is public, should be declared in a file named Sample.java``
+   
+   **Fix:** Either rename the file to Sample.java or change the class name to Test.
+
+2. **Missing Semicolons:**
+   
+   .. code:: java
+   
+      public class Test {
+          public static void main(String[] args) {
+              System.out.println("Hello")  // Missing semicolon
+              System.out.println("World");
+          }
+      }
+   
+   **Error:** ``; expected``
+
+3. **Mismatched Braces:**
+   
+   .. code:: java
+   
+      public class Test {
+          public static void main(String[] args) {
+              System.out.println("Hello");
+          // Missing closing brace
+      }
+   
+   **Error:** ``reached end of file while parsing``
+
 --------------
 
 Command Line Arguments
 ----------------------
 
-Basic Command Line Argument Handling
+Understanding Command Line Arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Command line arguments are values you can pass to your program when you run it. These are stored in the `String[] args` parameter of the main method.
 
 .. code:: java
 
    class ArgumentDemo {
        public static void main(String[] args) {
+           // Print the number of arguments provided
            System.out.println("Number of arguments: " + args.length);
            
+           // Print the first argument (if any)
            if (args.length > 0) {
                System.out.println("First argument: " + args[0]);
+           } else {
+               System.out.println("No arguments provided");
            }
            
-           // Display all arguments
-           for (int i = 0; i < args.length; i++) {
-               System.out.println("Argument " + i + ": " + args[i]);
+           // Print a message using the argument
+           if (args.length > 0) {
+               System.out.println("Hello, " + args[0] + "!");
+           }
+       }
+   }
+
+**Running with Command Line Arguments in IntelliJ IDEA:**
+
+There are two ways to run a Java program with command line arguments in IntelliJ IDEA:
+
+1. **Using a Temporary Run Configuration:**
+   - Right-click on your Java class with the main method
+   - Select "Modify Run Configuration"
+   - In the "Program arguments" field, enter your arguments (e.g., "John")
+   - Click "Run"
+
+2. **Creating a Permanent Run Configuration:**
+   - Go to Run → Edit Configurations
+   - Find your class's run configuration or create a new one
+   - In the "Program arguments" field, enter your arguments
+   - Click "Apply" and then "Run"
+
+**Output** (when run with argument "John"):
+
+::
+
+   Number of arguments: 1
+   First argument: John
+   Hello, John!
+
+Debugging in IntelliJ IDEA
+--------------------------
+
+One of the biggest advantages of using an IDE like IntelliJ IDEA is its powerful debugging capabilities, which can help you find and fix errors in your code more efficiently.
+
+Basic Debugging Concepts
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Debugging allows you to:
+
+- Pause program execution at specific points
+- Examine variable values during runtime
+- Step through code line by line
+- Identify logical errors that don't cause compilation failures
+
+Setting Up Breakpoints
+~~~~~~~~~~~~~~~~~~~~~
+
+Breakpoints are markers that tell the debugger where to pause execution:
+
+1. **Adding Breakpoints**:
+   - Click in the gutter (the area to the left of your code) next to the line number where you want to pause execution
+   - A red circle appears, indicating a breakpoint
+   - You can add multiple breakpoints throughout your code
+
+2. **Starting Debug Mode**:
+   - Instead of using the Run button (▶), click the Debug button (🐞)
+   - Or right-click and select "Debug [ClassName].main()"
+   - The program will run until it reaches a breakpoint
+
+Debugging Controls
+~~~~~~~~~~~~~~~~~
+
+When the program pauses at a breakpoint, you have several controls available:
+
+1. **Step Over** (F8): Execute the current line and move to the next line
+2. **Step Into** (F7): If the current line contains a method call, jump into that method
+3. **Step Out** (Shift+F8): Complete the current method and return to the calling method
+4. **Resume Program** (F9): Continue execution until the next breakpoint or program end
+
+Examining Variables
+~~~~~~~~~~~~~~~~~~
+
+During debugging, you can inspect the state of your program:
+
+1. **Variables Window**: Shows all local variables and their current values
+2. **Watches**: Allow you to monitor specific expressions
+3. **Evaluate Expression** (Alt+F8): Calculate the value of any valid Java expression on the fly
+
+Example Debugging Session
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Consider this buggy code:
+
+.. code:: java
+
+   public class DebugDemo {
+       public static void main(String[] args) {
+           int[] numbers = {1, 2, 3, 4, 5};
+           int sum = 0;
+           
+           // Bug: loop goes beyond array bounds
+           for (int i = 0; i <= numbers.length; i++) {
+               sum += numbers[i];
+           }
+           
+           System.out.println("Sum: " + sum);
+       }
+   }
+
+To find the bug:
+
+1. Set a breakpoint at the line `for (int i = 0; i <= numbers.length; i++)`
+2. Start debugging
+3. Use Step Over to execute the loop iterations one by one
+4. Watch the `i` variable as it reaches the value 5 (which is equal to `numbers.length`)
+5. At this point, `numbers[i]` attempts to access an element at index 5, causing an `ArrayIndexOutOfBoundsException`
+6. Fix the bug by changing `<=` to `<` in the loop condition
+   Hello, John!
+
+Using Multiple Arguments
+~~~~~~~~~~~~~~~~~~~~~~~
+
+You can access different arguments by their position in the array:
+
+.. code:: java
+
+   class GreetingDemo {
+       public static void main(String[] args) {
+           // Check if we have the expected number of arguments
+           if (args.length == 2) {
+               String firstName = args[0];
+               String lastName = args[1];
+               
+               System.out.println("Hello, " + firstName + " " + lastName + "!");
+           } else {
+               System.out.println("Please provide your first name and last name");
            }
        }
    }
@@ -210,108 +379,13 @@ Basic Command Line Argument Handling
 
 .. code:: bash
 
-   java ArgumentDemo Hello World Java
+   java GreetingDemo John Doe
 
 **Output:**
 
 ::
 
-   Number of arguments: 3
-   First argument: Hello
-   Argument 0: Hello
-   Argument 1: World
-   Argument 2: Java
-
-Numeric Command Line Arguments
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: java
-
-   class Calculator {
-       public static void main(String[] args) {
-           if (args.length < 3) {
-               System.out.println("Usage: java Calculator <num1> <operator> <num2>");
-               return;
-           }
-           
-           try {
-               double num1 = Double.parseDouble(args[0]);
-               String operator = args[1];
-               double num2 = Double.parseDouble(args[2]);
-               double result = 0;
-               
-               switch (operator) {
-                   case "+":
-                       result = num1 + num2;
-                       break;
-                   case "-":
-                       result = num1 - num2;
-                       break;
-                   case "*":
-                       result = num1 * num2;
-                       break;
-                   case "/":
-                       if (num2 != 0) {
-                           result = num1 / num2;
-                       } else {
-                           System.out.println("Division by zero!");
-                           return;
-                       }
-                       break;
-                   default:
-                       System.out.println("Invalid operator: " + operator);
-                       return;
-               }
-               
-               System.out.println(num1 + " " + operator + " " + num2 + " = " + result);
-               
-           } catch (NumberFormatException e) {
-               System.out.println("Invalid number format!");
-           }
-       }
-   }
-
-**Execution:**
-
-.. code:: bash
-
-   java Calculator 15.5 * 2.5
-   # Output: 15.5 * 2.5 = 38.75
-
-Advanced Argument Processing
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. code:: java
-
-   import java.util.*;
-
-   class ArgumentProcessor {
-       public static void main(String[] args) {
-           if (args.length == 0) {
-               System.out.println("No arguments provided. Length = 0");
-               return;
-           }
-           
-           Map<String, String> options = new HashMap<>();
-           List<String> positionalArgs = new ArrayList<>();
-           
-           for (int i = 0; i < args.length; i++) {
-               if (args[i].startsWith("-")) {
-                   if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
-                       options.put(args[i], args[i + 1]);
-                       i++; // Skip next argument as it's the value
-                   } else {
-                       options.put(args[i], "true");
-                   }
-               } else {
-                   positionalArgs.add(args[i]);
-               }
-           }
-           
-           System.out.println("Options: " + options);
-           System.out.println("Positional arguments: " + positionalArgs);
-       }
-   }
+   Hello, John Doe!
 
 --------------
 
@@ -564,34 +638,30 @@ Multithreading
 
 .. code:: java
 
-   // Simple multithreading example
-   class CounterThread extends Thread {
+   // Basic thread concept introduction
+   class SimpleThread extends Thread {
        private String threadName;
        
-       public CounterThread(String name) {
+       public SimpleThread(String name) {
            this.threadName = name;
        }
        
        @Override
        public void run() {
-           for (int i = 1; i <= 5; i++) {
-               System.out.println(threadName + ": " + i);
-               try {
-                   Thread.sleep(1000); // Sleep for 1 second
-               } catch (InterruptedException e) {
-                   System.out.println(threadName + " interrupted");
-               }
-           }
+           System.out.println(threadName + " is running");
        }
    }
 
-   public class MultiThreadExample {
+   public class ThreadExample {
        public static void main(String[] args) {
-           CounterThread thread1 = new CounterThread("Thread-1");
-           CounterThread thread2 = new CounterThread("Thread-2");
+           SimpleThread thread1 = new SimpleThread("Thread-1");
+           SimpleThread thread2 = new SimpleThread("Thread-2");
            
+           // Start the threads
            thread1.start();
            thread2.start();
+           
+           System.out.println("Main thread continues execution");
        }
    }
 
@@ -636,75 +706,30 @@ Keyword Usage Examples
        static int staticField;
        final int CONSTANT = 100;
        
-       // Control flow keywords
-       public void controlFlowExample(int value) {
-           if (value > 0) {
-               System.out.println("Positive");
-           } else if (value < 0) {
-               System.out.println("Negative");
-           } else {
-               System.out.println("Zero");
-           }
-           
-           switch (value) {
-               case 1:
-                   System.out.println("One");
-                   break;
-               case 2:
-                   System.out.println("Two");
-                   break;
-               default:
-                   System.out.println("Other");
-           }
-           
-           // Loop keywords
-           for (int i = 0; i < 5; i++) {
-               if (i == 3) continue;
-               if (i == 4) break;
-               System.out.println(i);
-           }
-           
-           int j = 0;
-           while (j < 3) {
-               System.out.println("While: " + j);
-               j++;
-           }
-           
-           do {
-               System.out.println("Do-while: " + j);
-               j++;
-           } while (j < 5);
-       }
-       
-       // Exception handling keywords
-       public void exceptionExample() {
-           try {
-               int result = 10 / 0;
-           } catch (ArithmeticException e) {
-               System.out.println("Division by zero!");
-           } finally {
-               System.out.println("Finally block executed");
-           }
+       // Example method demonstrating keywords
+       public void demonstrateKeywords() {
+           // This is a simple method to show keyword usage
+           int localVariable = 10;
+           System.out.println("Local variable: " + localVariable);
+           System.out.println("Constant value: " + CONSTANT);
        }
    }
 
-   // Inheritance keywords
-   abstract class Animal {
-       abstract void makeSound();
-       
-       final void sleep() {
-           System.out.println("Animal is sleeping");
+   // Class inheritance example
+   class Animal {
+       void makeSound() {
+           System.out.println("Animal makes a sound");
        }
    }
 
    class Dog extends Animal {
        @Override
        void makeSound() {
-           System.out.println("Woof!");
+           System.out.println("Dog barks");
        }
    }
 
-   // Interface keywords
+   // Interface example
    interface Flyable {
        void fly();
    }
@@ -740,46 +765,33 @@ Invalid Keyword Usage
 
 Data Types and Variables
 ------------------------
++--------------+-------------+----------------------------+----------------------------+----------------+
+| Type         | Size (bits) | Min Value                  | Max Value                  | Default Value  |
++==============+=============+============================+============================+================+
+| ``byte``     | 8           | -128                       | 127                        | 0              |
++--------------+-------------+----------------------------+----------------------------+----------------+
+| ``short``    | 16          | -32,768                    | 32,767                     | 0              |
++--------------+-------------+----------------------------+----------------------------+----------------+
+| ``int``      | 32          | -2,147,483,648             | 2,147,483,647              | 0              |
++--------------+-------------+----------------------------+----------------------------+----------------+
+| ``long``     | 64          | -9,223,372,036,854,775,808 | 9,223,372,036,854,775,807  | 0L             |
++--------------+-------------+----------------------------+----------------------------+----------------+
+| ``float``    | 32          | 1.4E-45                    | 3.4028235E38               | 0.0f           |
++--------------+-------------+----------------------------+----------------------------+----------------+
+| ``double``   | 64          | 4.9E-324                   | 1.7976931348623157E308     | 0.0d           |
++--------------+-------------+----------------------------+----------------------------+----------------+
+| ``char``     | 16          | 0 (``\u0000``)             | 65,535 (``\uffff``)        | ``'\u0000'``   |
++--------------+-------------+----------------------------+----------------------------+----------------+
+| ``boolean``  | 1           | —                          | —                          | false          |
++--------------+-------------+----------------------------+----------------------------+----------------+
+
 
 Primitive Data Types
 ~~~~~~~~~~~~~~~~~~~~
 
 Java has **8 primitive data types**:
 
-+------+---------------+-------------+-------------+------------------+
-| Type | Size (bits)   | Min Value   | Max Value   | Default Value    |
-+======+===============+=============+=============+==================+
-| ``by | 8             | -128        | 127         | 0                |
-| te`` |               |             |             |                  |
-+------+---------------+-------------+-------------+------------------+
-| `    | 16            | -32,768     | 32,767      | 0                |
-| `sho |               |             |             |                  |
-| rt`` |               |             |             |                  |
-+------+---------------+-------------+-------------+------------------+
-| ``i  | 32            | -2,         | 2,          | 0                |
-| nt`` |               | 147,483,648 | 147,483,647 |                  |
-+------+---------------+-------------+-------------+------------------+
-| ``lo | 64            | -9,2        | 9,2         | 0L               |
-| ng`` |               | 23,372,036, | 23,372,036, |                  |
-|      |               | 854,775,808 | 854,775,807 |                  |
-+------+---------------+-------------+-------------+------------------+
-| `    | 32            | 1.4E-45     | 3           | 0.0f             |
-| `flo |               |             | .4028235E38 |                  |
-| at`` |               |             |             |                  |
-+------+---------------+-------------+-------------+------------------+
-| ``   | 64            | 4.9E-324    | 1.797693134 | 0.0d             |
-| doub |               |             | 8623157E308 |                  |
-| le`` |               |             |             |                  |
-+------+---------------+-------------+-------------+------------------+
-| ``ch | 16            | 0           | 65,535      | ‘:raw            |
-| ar`` |               | (           | (           | -latex:`\u0`000’ |
-|      |               | ‘:raw-latex | ‘:raw-latex |                  |
-|      |               | :`\u0`000’) | :`\uffff`’) |                  |
-+------+---------------+-------------+-------------+------------------+
-| ``b  | 1             | -           | -           | false            |
-| oole |               |             |             |                  |
-| an`` |               |             |             |                  |
-+------+---------------+-------------+-------------+------------------+
+
 
 Data Type Examples
 ~~~~~~~~~~~~~~~~~~
@@ -1129,30 +1141,17 @@ Logical Operators
            System.out.println("false || true = " + (false || true)); // true
            System.out.println("false || false = " + (false || false)); // false
            
-           // Short-circuit evaluation
-           int x = 5, y = 10;
-           System.out.println("\nShort-circuit evaluation:");
-           if (x < 10 && ++y > 10) {  // ++y is evaluated because x < 10 is true
-               System.out.println("Condition true");
-           }
-           System.out.println("y after && = " + y); // y = 11
+           // Short-circuit examples with simple values
+           boolean result1 = true && true;    // Both evaluated
+           boolean result2 = false && true;   // Second part not evaluated
+           boolean result3 = true || false;   // Second part not evaluated
+           boolean result4 = false || true;   // Both evaluated
            
-           y = 10; // Reset
-           if (x > 10 && ++y > 10) {  // ++y is NOT evaluated because x > 10 is false
-               System.out.println("Condition true");
-           }
-           System.out.println("y after && (short-circuit) = " + y); // y = 10
-           
-           // Complex logical expressions
-           int age = 25;
-           boolean hasLicense = true;
-           boolean hasInsurance = false;
-           
-           boolean canDrive = age >= 18 && hasLicense && hasInsurance;
-           System.out.println("\nCan drive: " + canDrive); // false
-           
-           boolean canRentCar = age >= 21 && hasLicense;
-           System.out.println("Can rent car: " + canRentCar); // true
+           System.out.println("\nShort-circuit results:");
+           System.out.println("true && true: " + result1);
+           System.out.println("false && true: " + result2);
+           System.out.println("true || false: " + result3);
+           System.out.println("false || true: " + result4);
        }
    }
 
@@ -1303,32 +1302,23 @@ Ternary Operator
            String result = (a > b) ? "a is greater" : "b is greater or equal";
            System.out.println(result);
            
-           // Nested ternary operators
+           // Simple nested ternary example
            int x = 15, y = 10, z = 20;
-           int maximum = (x > y) ? ((x > z) ? x : z) : ((y > z) ? y : z);
-           System.out.println("Max of " + x + ", " + y + ", " + z + " is: " + maximum);
-           
-           // Ternary in method calls
-           int num = -5;
-           System.out.println("Absolute value: " + ((num < 0) ? -num : num));
+           int largest = (x > y) ? x : y;
+           System.out.println("Larger of " + x + " and " + y + " is: " + largest);
            
            // Ternary for assignment
            boolean isWeekend = true;
            String activity = isWeekend ? "Relax" : "Work";
            System.out.println("Activity: " + activity);
            
-           // Ternary with method calls
-           String str = null;
-           int length = (str != null) ? str.length() : 0;
-           System.out.println("String length: " + length);
-           
-           // Grade calculation example
-           int score = 85;
-           char grade = (score >= 90) ? 'A' : 
-                       (score >= 80) ? 'B' : 
-                       (score >= 70) ? 'C' : 
-                       (score >= 60) ? 'D' : 'F';
-           System.out.println("Score: " + score + ", Grade: " + grade);
+           // Safe string length example
+           String str = "Hello";
+           String nullStr = null;
+           int length1 = (str != null) ? str.length() : 0;
+           int length2 = (nullStr != null) ? nullStr.length() : 0;
+           System.out.println("String length of '" + str + "': " + length1);
+           System.out.println("String length of null string: " + length2);
        }
    }
 
@@ -1407,32 +1397,19 @@ Complex Data Type Usage
            int[] numbers = {10, 20, 30, 40, 50};
            char[] chars = {'J', 'a', 'v', 'a'};
            
-           System.out.println("Array operations:");
-           for (int i = 0; i < numbers.length; i++) {
-               System.out.println("numbers[" + i + "] = " + numbers[i]);
-           }
+           // Print first element
+           System.out.println("First number: " + numbers[0]);
+           System.out.println("First character: " + chars[0]);
            
-           // Enhanced for loop
-           System.out.println("Characters:");
-           for (char c : chars) {
-               System.out.print(c + " ");
-           }
-           System.out.println();
-           
-           // Multi-dimensional arrays
+           // Multi-dimensional array example
            int[][] matrix = {
                {1, 2, 3},
-               {4, 5, 6},
-               {7, 8, 9}
+               {4, 5, 6}
            };
            
-           System.out.println("Matrix:");
-           for (int i = 0; i < matrix.length; i++) {
-               for (int j = 0; j < matrix[i].length; j++) {
-                   System.out.print(matrix[i][j] + " ");
-               }
-               System.out.println();
-           }
+           // Access specific elements
+           System.out.println("Matrix[0][0]: " + matrix[0][0]);
+           System.out.println("Matrix[1][2]: " + matrix[1][2]);
            
            // String operations
            String text = "Java Programming";
@@ -1481,20 +1458,10 @@ Comprehensive Operator Usage
            System.out.println("User has write permission: " + ((userPermissions & WRITE_PERMISSION) != 0));
            System.out.println("User has execute permission: " + ((userPermissions & EXECUTE_PERMISSION) != 0));
            
-           // Conditional assignment with multiple conditions
-           int age = 22;
-           boolean hasJob = true;
-           boolean hasGoodCredit = false;
-           
-           String loanEligibility = (age >= 18 && age <= 65) && hasJob && hasGoodCredit ? 
-                                   "Eligible" : "Not Eligible";
-           System.out.println("Loan eligibility: " + loanEligibility);
-           
-           // Complex increment operations
-           int x = 10, y = 5;
-           int complexResult = ++x * y-- + x++ - --y; // 11*5 + 11 - 3 = 55 + 11 - 3 = 63
-           System.out.println("Complex increment result: " + complexResult);
-           System.out.println("Final values: x=" + x + ", y=" + y);
+           // Assignment with concatenation
+           String message = "Hello";
+           message += " World";
+           System.out.println("Message: " + message);
            
            // Type casting in operations
            double pi = 3.14159;
@@ -1506,25 +1473,6 @@ Comprehensive Operator Usage
            System.out.println("Letter: " + letter);
            System.out.println("ASCII value: " + (int) letter);
            System.out.println("Next letter: " + (char) (letter + 1));
-           
-           // Boolean operations with short-circuiting
-           boolean result = checkCondition1() && checkCondition2() || checkCondition3();
-           System.out.println("Complex boolean result: " + result);
-       }
-       
-       private static boolean checkCondition1() {
-           System.out.println("Checking condition 1");
-           return false;
-       }
-       
-       private static boolean checkCondition2() {
-           System.out.println("Checking condition 2");
-           return true;
-       }
-       
-       private static boolean checkCondition3() {
-           System.out.println("Checking condition 3");
-           return true;
        }
    }
 
@@ -1533,131 +1481,103 @@ Real-World Application Example
 
 .. code:: java
 
-   import java.util.Scanner;
-
-   public class StudentGradeCalculator {
+   public class SimpleCalculator {
        public static void main(String[] args) {
-           Scanner scanner = new Scanner(System.in);
+           // This is a simple calculator application that shows language basics
            
-           System.out.println("=== Student Grade Calculator ===");
+           // Variable declarations
+           double num1 = 25.5;
+           double num2 = 10.0;
            
-           // Get student information
-           System.out.print("Enter student name: ");
-           String studentName = scanner.nextLine();
-           
-           System.out.print("Enter number of subjects: ");
-           int numSubjects = scanner.nextInt();
-           
-           if (numSubjects <= 0) {
-               System.out.println("Invalid number of subjects!");
-               return;
-           }
-           
-           double[] scores = new double[numSubjects];
-           double totalScore = 0;
-           
-           // Input scores
-           for (int i = 0; i < numSubjects; i++) {
-               System.out.print("Enter score for subject " + (i + 1) + ": ");
-               scores[i] = scanner.nextDouble();
-               
-               // Validate score range
-               if (scores[i] < 0 || scores[i] > 100) {
-                   System.out.println("Invalid score! Please enter a value between 0 and 100.");
-                   i--; // Repeat this iteration
-                   continue;
-               }
-               
-               totalScore += scores[i];
-           }
-           
-           // Calculate average
-           double average = totalScore / numSubjects;
-           
-           // Determine letter grade using multiple approaches
-           char letterGrade;
-           String gradeDescription;
-           
-           // Using if-else chain
-           if (average >= 90) {
-               letterGrade = 'A';
-               gradeDescription = "Excellent";
-           } else if (average >= 80) {
-               letterGrade = 'B';
-               gradeDescription = "Good";
-           } else if (average >= 70) {
-               letterGrade = 'C';
-               gradeDescription = "Average";
-           } else if (average >= 60) {
-               letterGrade = 'D';
-               gradeDescription = "Below Average";
-           } else {
-               letterGrade = 'F';
-               gradeDescription = "Fail";
-           }
-           
-           // Using ternary operator for pass/fail
-           boolean passed = average >= 60 ? true : false;
+           // Arithmetic operations
+           double sum = num1 + num2;
+           double difference = num1 - num2;
+           double product = num1 * num2;
+           double quotient = num1 / num2;
            
            // Display results
-           System.out.println("\n=== Grade Report ===");
-           System.out.println("Student Name: " + studentName);
-           System.out.println("Number of Subjects: " + numSubjects);
+           System.out.println("=== Simple Calculator ===");
+           System.out.println("First number: " + num1);
+           System.out.println("Second number: " + num2);
+           System.out.println("\nResults:");
+           System.out.println("Sum: " + sum);
+           System.out.println("Difference: " + difference);
+           System.out.println("Product: " + product);
+           System.out.println("Quotient: " + quotient);
            
-           System.out.println("\nIndividual Scores:");
-           for (int i = 0; i < scores.length; i++) {
-               System.out.printf("Subject %d: %.2f\n", (i + 1), scores[i]);
-           }
+           // Using different number formats
+           int intValue = (int)num1;
+           long longValue = (long)product;
            
-           System.out.printf("\nTotal Score: %.2f\n", totalScore);
-           System.out.printf("Average Score: %.2f\n", average);
-           System.out.println("Letter Grade: " + letterGrade);
-           System.out.println("Grade Description: " + gradeDescription);
-           System.out.println("Status: " + (passed ? "PASSED" : "FAILED"));
+           System.out.println("\nConverted Values:");
+           System.out.println("Int value of " + num1 + ": " + intValue);
+           System.out.println("Long value of product: " + longValue);
            
-           // Performance analysis using bitwise operations for categorization
-           int performanceFlags = 0;
-           final int EXCELLENT = 1;  // 001
-           final int GOOD = 2;       // 010
-           final int NEEDS_HELP = 4; // 100
-           
-           if (average >= 90) performanceFlags |= EXCELLENT;
-           if (average >= 70) performanceFlags |= GOOD;
-           if (average < 60) performanceFlags |= NEEDS_HELP;
-           
-           System.out.println("\nPerformance Analysis:");
-           if ((performanceFlags & EXCELLENT) != 0) {
-               System.out.println("- Excellent performance!");
-           }
-           if ((performanceFlags & GOOD) != 0) {
-               System.out.println("- Good academic standing");
-           }
-           if ((performanceFlags & NEEDS_HELP) != 0) {
-               System.out.println("- Needs academic assistance");
-           }
-           
-           scanner.close();
+           // Using String operations
+           String message = "The result is: ";
+           String finalResult = message + sum;
+           System.out.println("\nFormatted output:");
+           System.out.println(finalResult);
        }
    }
 
 --------------
 
-Quiz Solutions
---------------
+Practice Exercises
+-----------------
 
-Quiz 1: Multiple Classes Compilation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Question 1: Hello World Program
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-**Question:** Sample.java file contains class A, B and C. How many
-.class files will be created after compiling Sample.java?
+**Question:** What will be the output of the following program?
 
-**Answer:** **3 .class files** will be created: A.class, B.class, and
-C.class
+.. code:: java
 
-**Explanation:** Each class definition in Java, regardless of whether
+   public class HelloWorld {
+       public static void main(String[] args) {
+           System.out.println("Hello, World!");
+       }
+   }
+
+**Hint:** Look at what is inside the println() method.
+
+Question 2: Basic Variable Assignment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Question:** What will be the output of the following program?
+
+.. code:: java
+
+   public class Variables {
+       public static void main(String[] args) {
+           int x = 10;
+           int y = 20;
+           int sum = x + y;
+           System.out.println("Sum: " + sum);
+       }
+   }
+
+**Hint:** The program adds two variables and prints the result.
+
+Question 3: String Concatenation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Question:** What will be the output of the following program?
+
+.. code:: java
+
+   public class StringExample {
+       public static void main(String[] args) {
+           String firstName = "John";
+           String lastName = "Doe";
+           System.out.println(firstName + " " + lastName);
+       }
+   }
+
+**Hint:** The + operator with strings performs concatenation.
 it’s public or not, gets compiled into its own separate .class file.
 
-Quiz 2: Missing String[] args
+Question 2: Missing String[] args
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if you try to compile and execute
@@ -1679,7 +1599,7 @@ class Sample, please define the main method as: public static void
 main(String[] args)”. The main method signature must include String[]
 args.
 
-Quiz 3: No Command Line Arguments
+Question 3: No Command Line Arguments
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if you try to compile and execute
@@ -1700,7 +1620,7 @@ the following code without passing any command line argument?
 **Explanation:** When no command line arguments are passed, args.length
 returns 0.
 
-Quiz 4: Using Keyword as Variable
+Question 4: Using Keyword as Variable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1720,7 +1640,7 @@ the following code?
 **Explanation:** ‘for’ is a reserved keyword in Java and cannot be used
 as a variable name.
 
-Quiz 5: Byte Overflow
+Question 5: Byte Overflow
 ~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1740,7 +1660,7 @@ the following code?
 **Explanation:** byte can only hold values from -128 to 127. 128 is
 outside this range, causing a compilation error.
 
-Quiz 6: Float and Boolean Assignment
+Question 6: Float and Boolean Assignment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1763,7 +1683,7 @@ the following code?
 (1.2 is double by default) 2. boolean b=1; - boolean can only be true or
 false, not numeric values
 
-Quiz 7: Double with D suffix
+Question 7: Double with D suffix
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1783,7 +1703,7 @@ the following code?
 **Explanation:** The ‘D’ suffix explicitly makes it a double literal,
 which is valid.
 
-Quiz 8: Number Systems
+Question 8: Number Systems
 ~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1803,7 +1723,7 @@ the following code?
 **Explanation:** - a=10 (decimal) - b=017 (octal) = 1×8¹ + 7×8⁰ = 8 + 7
 = 15 - c=0X3A (hexadecimal) = 3×16¹ + 10×16⁰ = 48 + 10 = 58
 
-Quiz 9: Invalid Variable Name
+Question 9: Invalid Variable Name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1823,7 +1743,7 @@ the following code?
 **Explanation:** Variable names cannot start with a digit. Valid
 identifiers must start with a letter, underscore, or dollar sign.
 
-Quiz 10: Uninitialized Local Variable
+Question 10: Uninitialized Local Variable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1843,24 +1763,24 @@ the following code?
 **Explanation:** Local variables must be initialized before use. Unlike
 instance variables, local variables don’t have default values.
 
-Quiz 11: Data Type Sizes
-~~~~~~~~~~~~~~~~~~~~~~~~
+Question 11: Data Type Sizes
+~~~~~~~~~~~~~~~~~~~~~~
+**Question:** What will be the result if we try to compile and execute
+the following code?
+.. code:: java
 
-**Question:** Match the following table:
+    class Test {
+        public static void main(String[] args) {
+            System.out.println("Size of int: " + Integer.SIZE);
+           
+        }
+    }
 
-========== ===========
-DATA TYPES SIZE(bytes)
-========== ===========
-char       4
-byte       2
-int        1
-double     8
-========== ===========
+**Answer:** **Prints:**
+Size of int: 32
 
-| **Answer:** - char: 2 bytes - byte: 1 byte
-| - int: 4 bytes - double: 8 bytes
 
-Quiz 12: Pre-increment Operations
+Question 12: Pre-increment Operations
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the result if we try to compile and execute
@@ -1881,7 +1801,7 @@ the following code?
 **Explanation:** ++x increments x to 11, ++y increments y to 6, then 11
 + 6 = 17
 
-Quiz 13: Missing String[] args in main
+Question 13: Missing String[] args in main
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Question:** What will be the output for the below code?
@@ -1914,10 +1834,11 @@ basics:
 Key Topics Covered:
 ~~~~~~~~~~~~~~~~~~~
 
-1. **Environment Setup** - PATH and CLASSPATH configuration
-2. **Program Structure** - Basic Java program anatomy and compilation
-3. **Command Line Arguments** - Accessing and processing user input
-4. **Programming Practices** - Naming conventions and documentation
+1. **Environment Setup** - Installing and configuring IntelliJ IDEA
+2. **Program Structure** - Basic Java program anatomy and compilation in an IDE
+3. **Command Line Arguments** - Using program arguments in IntelliJ IDEA
+4. **Debugging** - Using IntelliJ's powerful debugging features
+5. **Programming Practices** - Naming conventions and documentation
 5. **Language Features** - Java’s core characteristics and benefits
 6. **Keywords** - All 50 reserved words and their usage
 7. **Data Types** - Primitive types, ranges, and conversions

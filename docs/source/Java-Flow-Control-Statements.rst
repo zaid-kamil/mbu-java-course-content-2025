@@ -41,6 +41,10 @@ normal sequential execution flow of a program. They allow programs to
 make decisions, repeat operations, and jump to different parts of code
 based on conditions.
 
+Without flow control, programs would execute sequentially from top to bottom,
+making it impossible to create dynamic and responsive applications. Flow control
+is the foundation of logical decision-making in programming.
+
 Types of Flow Control Statements
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -49,15 +53,79 @@ Java provides three main categories of flow control statements:
 1. **Selection Statements** - Make decisions based on conditions
 
    - ``if``, ``if-else``, ``switch``
+   
+   These statements evaluate conditions and execute different code blocks based on the results.
+   For example, an ATM program might use selection statements to determine whether a user has
+   sufficient funds for a withdrawal.
 
 2. **Iteration Statements** - Repeat code blocks
 
    - ``while``, ``do-while``, ``for``, enhanced ``for``
+   
+   These statements allow you to execute a block of code multiple times. For instance,
+   a program might use a loop to process each item in a shopping cart or to validate
+   user input until correct data is provided.
 
-3. **Jumping Statements** - Transfer control to different parts of the
-   program
+3. **Jumping Statements** - Transfer control to different parts of the program
 
    - ``break``, ``continue``, ``return``
+   
+   These statements alter the normal flow by jumping to a different part of the code.
+   For example, a ``break`` statement can exit a loop early when a specific condition is met.
+
+**Example: Using Different Flow Control Types**
+
+.. code:: java
+
+   public class FlowControlDemo {
+       public static void main(String[] args) {
+           // Selection statement example
+           int temperature = 28;
+           if (temperature > 25) {
+               System.out.println("It's a hot day!");
+           } else {
+               System.out.println("It's not too hot today.");
+           }
+           
+           // Iteration statement example
+           System.out.println("\nCounting from 1 to 5:");
+           for (int i = 1; i <= 5; i++) {
+               System.out.println("Count: " + i);
+           }
+           
+           // Jumping statement example
+           System.out.println("\nSearching for the number 3:");
+           for (int i = 1; i <= 10; i++) {
+               if (i == 3) {
+                   System.out.println("Found 3! Stopping the search.");
+                   break; // Exit the loop when 3 is found
+               }
+               System.out.println("Checking number: " + i);
+           }
+       }
+   }
+
+**Output:**
+
+::
+
+   It's a hot day!
+   
+   Counting from 1 to 5:
+   Count: 1
+   Count: 2
+   Count: 3
+   Count: 4
+   Count: 5
+   
+   Searching for the number 3:
+   Checking number: 1
+   Checking number: 2
+   Found 3! Stopping the search.
+
+This example demonstrates all three types of flow control statements working together in a single program.
+The selection statement checks the temperature, the iteration statement counts numbers, and the jumping
+statement stops the search when a specific value is found.
 
 --------------
 
@@ -71,7 +139,10 @@ Simple if Statement
 ~~~~~~~~~~~~~~~~~~~
 
 The ``if`` statement executes a block of code only when a specified
-condition is true.
+condition is true. This is the most basic form of selection statement in Java.
+
+When the condition evaluates to ``true``, the code block inside the braces is executed.
+When the condition evaluates to ``false``, the code block is skipped completely.
 
 Syntax:
 ^^^^^^^
@@ -95,8 +166,21 @@ Basic Examples:
            if (age >= 18) {
                System.out.println("You are an adult!");
            }
+           
+           System.out.println("Program continues here regardless of the condition.");
        }
    }
+
+**Output:**
+
+::
+
+   You are an adult!
+   Program continues here regardless of the condition.
+
+In this example, the condition ``age >= 18`` evaluates to ``true`` since age is 18.
+Therefore, the message "You are an adult!" is printed. The second message is outside
+the if block, so it's always printed regardless of the condition.
 
 .. code:: java
 
@@ -118,6 +202,22 @@ Basic Examples:
            }
        }
    }
+
+**Output:**
+
+::
+
+   You passed the exam.
+
+In this example, the program checks multiple independent conditions:
+- First if: score >= 90 is false (85 is not ≥ 90), so nothing is printed
+- Second if: score >= 60 is true (85 is ≥ 60), so "You passed the exam" is printed
+- Third if: score < 60 is false (85 is not < 60), so nothing is printed
+
+**When to use simple if statements:**
+- When you need to execute code only under specific conditions
+- When there's no alternative action needed for the false condition
+- When checking multiple independent conditions
 
 Advanced if Examples:
 ^^^^^^^^^^^^^^^^^^^^^
@@ -150,14 +250,57 @@ Advanced if Examples:
            if (name != null && name.length() > 0) {
                System.out.println("Hello, " + name);
            }
+           
+           // Using parentheses for clarity
+           int a = 5, b = 10, c = 15;
+           if ((a < b) && ((b + 2) < c)) {
+               System.out.println("Both conditions are true!");
+           }
        }
    }
+
+**Output:**
+
+::
+
+   Perfect weather for a walk!
+   It's weekend!
+   Both conditions are true!
+
+This example demonstrates more complex conditional expressions:
+
+1. **Logical Operators**: 
+   - AND operator (&&): Both conditions must be true
+   - OR operator (||): At least one condition must be true
+   - NOT operator (!): Inverts the boolean value
+
+2. **String Comparison**:
+   - Use `equals()` method instead of `==` to compare string content
+   - `==` compares object references, not string content
+
+3. **Short-circuit Evaluation**:
+   - In the null check example, if `name != null` is false, the second condition `name.length() > 0` is not evaluated
+   - This prevents a NullPointerException
+   
+4. **Using Parentheses**:
+   - Parentheses clarify the order of evaluation
+   - They improve code readability for complex conditions
+
+**Common Mistakes to Avoid:**
+- Using `==` instead of `equals()` for string comparison
+- Not using short-circuit evaluation for null checks
+- Forgetting that `=` is assignment while `==` is comparison
+
 
 if-else Statement
 ~~~~~~~~~~~~~~~~~
 
 The ``if-else`` statement provides an alternative execution path when
-the condition is false.
+the condition is false. Unlike the simple ``if`` statement, the ``if-else``
+statement ensures that exactly one of the two code blocks will be executed.
+
+This is particularly useful when you need to perform one action if a condition
+is true, and a different action if the condition is false.
 
 .. _syntax-1:
 
@@ -179,23 +322,30 @@ Basic Examples:
 
 .. code:: java
 
-   // Example 1: Voting eligibility (from course material)
+   // Example 1: Voting eligibility
    public class VotingEligibility {
        public static void main(String[] args) {
-           if (args.length == 0) {
-               System.out.println("Please provide your age as an argument.");
-               return;
-           }
-           
-           int age = Integer.parseInt(args[0]);
+           int age = 16;
            
            if (age >= 18) {
-               System.out.println("Eligible to vote");
+               System.out.println("You are eligible to vote");
            } else {
-               System.out.println("Not eligible to vote");
+               System.out.println("You are not eligible to vote");
+               System.out.println("You need to wait " + (18 - age) + " more years");
            }
        }
    }
+
+**Output:**
+
+::
+
+   You are not eligible to vote
+   You need to wait 2 more years
+
+This example checks if a person is eligible to vote based on their age.
+Since age is 16, which is less than 18, the condition evaluates to false,
+and the code in the else block executes.
 
 .. code:: java
 
@@ -211,6 +361,16 @@ Basic Examples:
            }
        }
    }
+
+**Output:**
+
+::
+
+   17 is odd
+
+This example checks if a number is even or odd using the modulo operator (%).
+When a number is divided by 2, if the remainder is 0, it's even; otherwise, it's odd.
+Since 17 % 2 equals 1 (not 0), the condition is false, and the else block executes.
 
 Advanced if-else Examples:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -235,6 +395,18 @@ Advanced if-else Examples:
        }
    }
 
+**Output:**
+
+::
+
+   Insufficient funds!
+   Available balance: $1000.0
+   Required amount: $1500.0
+
+This example simulates a bank withdrawal operation. Since the withdraw amount ($1500)
+is greater than the available balance ($1000), the condition evaluates to false, and
+the system displays an "Insufficient funds" message with relevant details.
+
 .. code:: java
 
    // Example 4: Password validation
@@ -257,11 +429,41 @@ Advanced if-else Examples:
        }
    }
 
+**Output:**
+
+::
+
+   Strong password!
+
+This example demonstrates a more complex password validation using multiple conditions with logical AND (&&):
+1. The password must be at least 8 characters long
+2. It must contain at least one uppercase letter (using regex `.*[A-Z].*`)
+3. It must contain at least one lowercase letter (using regex `.*[a-z].*`)
+4. It must contain at least one digit (using regex `.*[0-9].*`)
+
+Since "MySecure123" meets all these requirements, the condition evaluates to true,
+and the program indicates it's a strong password.
+
+**Key Points About if-else Statements:**
+
+1. **Mutual Exclusivity**: Only one of the blocks (if or else) will execute, never both.
+
+2. **Default Behavior**: The else block provides a default action when the condition is false.
+
+3. **Code Structure**: Using if-else improves code readability by clearly separating the two possible execution paths.
+
+4. **Error Handling**: if-else is commonly used for validation and error handling scenarios.
+
 Cascading if-else
 ~~~~~~~~~~~~~~~~~
 
 Multiple conditions can be checked using cascading if-else statements
-(also known as if-else ladder).
+(also known as if-else ladder). This structure is used when you need to check
+multiple conditions in sequence and execute the code block associated with the first
+condition that evaluates to true.
+
+When more than two options exist, using cascading if-else statements provides a 
+more readable and maintainable solution than nested if-else statements.
 
 .. _syntax-2:
 
@@ -277,7 +479,7 @@ Syntax:
    } else if (condition3) {
        // statements for condition3
    } else {
-       // default statements
+       // default statements when no condition is true
    }
 
 Examples:
@@ -285,29 +487,36 @@ Examples:
 
 .. code:: java
 
-   // Example 1: Season determination (from course material)
+   // Example 1: Season determination
    public class SeasonFinder {
        public static void main(String[] args) {
-           if (args.length == 0) {
-               System.out.println("Please provide month number (1-12)");
-               return;
-           }
-           
-           int month = Integer.parseInt(args[0]);
+           int month = 4; // April
            
            if (month == 12 || month == 1 || month == 2) {
-               System.out.println("Winter");
-           } else if (month == 3 || month == 4 || month == 5) {
-               System.out.println("Spring");
-           } else if (month == 6 || month == 7 || month == 8) {
-               System.out.println("Summer");
-           } else if (month == 9 || month == 10 || month == 11) {
-               System.out.println("Autumn");
+               System.out.println("It's Winter");
+           } else if (month >= 3 && month <= 5) {
+               System.out.println("It's Spring");
+           } else if (month >= 6 && month <= 8) {
+               System.out.println("It's Summer");
+           } else if (month >= 9 && month <= 11) {
+               System.out.println("It's Fall");
            } else {
                System.out.println("Invalid month");
            }
        }
    }
+
+**Output:**
+
+::
+
+   It's Spring
+
+This example determines the season based on the month number. Since month is 4 (April), 
+the condition `month >= 3 && month <= 5` evaluates to true, and "It's Spring" is printed.
+Notice how the conditions are checked in sequence, and only the first true condition's
+block is executed.
+
 
 .. code:: java
 
