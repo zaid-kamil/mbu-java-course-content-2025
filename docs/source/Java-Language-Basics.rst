@@ -110,6 +110,7 @@ Keywords
 Keywords are special words in Java that have specific meanings.
 
 Common Keywords:
+
 - ``public`` - makes something accessible
 - ``class`` - creates a new class
 - ``static`` - belongs to the class, not an object
@@ -139,11 +140,14 @@ Data Types and Variables
 Java has different types of data storage.
 
 Primitive Data Types:
+
 - ``int`` - whole numbers (1, 2, 100)
-- ``double`` - decimal numbers (3.14, 2.5)
+- ``float`` - decimal numbers (3.14, 2.5)
+- ``double`` - large decimal numbers (2.29319299292)
 - ``char`` - single character ('A', '1')
 - ``boolean`` - true or false
 - ``String`` - text ("Hello")
+
 
 Example: Variable Declaration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -203,6 +207,7 @@ Arithmetic Operators
 Used for basic mathematical operations.
 
 **Operators:**
+
 - ``+`` Addition
 - ``-`` Subtraction
 - ``*`` Multiplication
@@ -249,9 +254,11 @@ Assignment Operators
 Used to assign values to variables.
 
 **Basic Assignment:**
+
 - ``=`` Simple assignment
 
 **Compound Assignment:**
+
 - ``+=`` Add and assign
 - ``-=`` Subtract and assign
 - ``*=`` Multiply and assign
@@ -287,6 +294,7 @@ Comparison Operators
 Used to compare two values. Result is always true or false.
 
 **Operators:**
+
 - ``==`` Equal to
 - ``!=`` Not equal to
 - ``>`` Greater than
@@ -334,6 +342,7 @@ Logical Operators
 Used to combine multiple conditions.
 
 **Operators:**
+
 - ``&&`` AND (both conditions must be true)
 - ``||`` OR (at least one condition must be true)
 - ``!`` NOT (reverses the result)
@@ -361,6 +370,7 @@ Unary Operators
 Work with a single operand.
 
 **Operators:**
+
 - ``++`` Increment (add 1)
 - ``--`` Decrement (subtract 1)
 - ``+`` Positive

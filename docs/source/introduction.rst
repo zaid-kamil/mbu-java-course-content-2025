@@ -5,9 +5,6 @@ Introduction
    :maxdepth: 2
    :caption: Contents:
 
-    Java-Architecture
-    Java Language Basics
-    Java Flow Control Statements
 
 Welcome to the Java Course Content documentation. This guide is designed to help learners of all levels understand the fundamentals and advanced concepts of Java programming. Whether you are a beginner or looking to enhance your Java skills, this documentation provides clear explanations, practical examples, and structured modules to support your learning journey.
 

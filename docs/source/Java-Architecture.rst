@@ -1,15 +1,6 @@
 Java Architecture
 ===============
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   overview
-   evolution-of-java
-   java-architecture-fundamentals
-   five-phases-of-java-program-execution
-
 Overview
 --------------
 
